@@ -1,14 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:pixelsapp/core/init/providerInit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixelsapp/core/route/routeGenerator.dart';
 import 'package:pixelsapp/core/route/routeHelper.dart';
 import 'package:pixelsapp/core/route/routeName.dart';
 import 'package:pixelsapp/core/theme/theme.dart';
+import 'package:pixelsapp/features/homescreen/bloc/homebloc.dart';
+import 'package:pixelsapp/features/splashScreen/bloc/splash_bloc.dart';
 
-
-class PostHttpOverrides extends HttpOverrides {
+class CustomHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(context) {
     return super.createHttpClient(context)
@@ -18,17 +18,24 @@ class PostHttpOverrides extends HttpOverrides {
 }
 
 void main() {
-  HttpOverrides.global = PostHttpOverrides();
+  HttpOverrides.global = CustomHttpOverrides();
+
   runApp(
-    const ProviderInit(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc(),
+        ),
+        BlocProvider<SplashBloc>(
+          create: (context) => SplashBloc(),
+        ),
+      ],
       child: Limble(),
     ),
   );
 }
 
 class Limble extends StatelessWidget {
-  const Limble({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

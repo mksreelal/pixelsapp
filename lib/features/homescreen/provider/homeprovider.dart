@@ -59,7 +59,9 @@ class HomeProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = photoGalleryModelFromJson(response.body);
-        final List<PhotoGalleryPhotos> newPhotos = data.photos ?? [];
+
+        final Iterable<PhotoGalleryPhotos> newPhotos =
+            data.photos?.reversed ?? [];
 
         if (newPhotos.isEmpty) {
           hasMore = false; // No more data to load

@@ -14,13 +14,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PersistentTabController _controller;
-  HomeProvider _provider = HomeProvider();
+  // HomeProvider _provider = HomeProvider();
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _provider.getHomeGallery();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _provider.getHomeGallery();
+    // });
     _controller = PersistentTabController(initialIndex: 0);
   }
 
@@ -32,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _buildScreens() {
     return [
-      const ImagesWidgets(),
-      const ImagesWidgets(),
-      const ImagesWidgets(),
-      const ImagesWidgets(),
-      const ImagesWidgets(),
+      ImagesWidgets(),
+      ImagesWidgets(),
+      ImagesWidgets(),
+      ImagesWidgets(),
+      ImagesWidgets(),
     ];
   }
 
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _provider = Provider.of(context);
+    // _provider = Provider.of(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: PersistentTabView(

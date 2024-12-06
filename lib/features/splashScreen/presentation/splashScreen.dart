@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pixelsapp/core/res/colors.dart';
 import 'package:pixelsapp/core/res/imagespaths.dart';
+import 'package:pixelsapp/core/route/routeHelper.dart';
 import 'package:pixelsapp/core/utils/contextExtentions/sizeExtentions.dart';
-import 'package:pixelsapp/features/splashScreen/provider/splashProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:pixelsapp/features/splashScreen/bloc/splash_bloc.dart';
+import 'package:pixelsapp/features/splashScreen/bloc/splash_state.dart';
+import 'package:pixelsapp/features/splashScreen/bloc/splashevent.dart';
+import 'package:pixelsapp/core/route/routeName.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  SplashProvider _provider = SplashProvider();
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _provider.initFunction();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    _provider = Provider.of(context);
-    return Scaffold(
-      backgroundColor: ColorsRes.white,
-      body: SizedBox(
-        width: context.getWidth,
-        height: context.getHeight,
-        child: Lottie.asset(ImagesRes.logoImage),
+    return BlocProvider(
+      create: (_) => SplashBloc()..add(StartSplash()),
+      child: BlocListener<SplashBloc, SplashState>(
+        listener: (context, state) {
+          if (state is SplashNavigate) {
+            pushNamed(RouteName.homeScreen);
+          }
+        },
+        child: Scaffold(
+          backgroundColor: ColorsRes.white,
+          body: SizedBox(
+            width: context.getWidth,
+            height: context.getHeight,
+            child: Lottie.asset(ImagesRes.logoImage),
+          ),
+        ),
       ),
     );
   }
